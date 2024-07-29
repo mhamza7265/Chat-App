@@ -1,0 +1,273 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+.container-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 430px;
+  width: 100%;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+.container-form .registration {
+  display: block;
+}
+#check:checked ~ .registration {
+  display: block;
+}
+#check:checked ~ .login {
+  display: none;
+}
+#check {
+  display: none;
+}
+.container-form .form {
+  padding: 2rem;
+}
+.form header {
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.form input {
+  height: 45px;
+  width: 100%;
+  padding: 0 15px;
+  font-size: 17px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+}
+
+.form .form-grp {
+  margin-bottom: 15px;
+}
+
+.form input:read-only {
+  background-color: rgb(172, 180, 180);
+}
+
+.form .button {
+  height: 45px;
+  width: 100%;
+  padding: 0 15px;
+  font-size: 17px;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+}
+.form input:focus {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+.form a {
+  font-size: 16px;
+  color: #009579;
+  text-decoration: none;
+}
+.form a:hover {
+  text-decoration: underline;
+}
+.form input.button {
+  color: #fff;
+  background: #009579;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-top: 1.7rem;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.form input.button:hover {
+  background: #006653;
+}
+.signup {
+  font-size: 17px;
+  text-align: center;
+}
+.signup label {
+  color: #009579;
+  cursor: pointer;
+}
+.signup label:hover {
+  text-decoration: underline;
+}
+
+.eye-container {
+  background-color: rgb(201, 201, 191);
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 12px 15px;
+  border-radius: 5px;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.container-bg {
+  background-color: white;
+}
+
+.background-pic {
+  background-image: url("./assets/images/green-gradient-abstract-polygon-background-vector-7712365.jpg");
+  height: 300px;
+}
+
+.profile-card {
+  background-color: white;
+  padding: 15px;
+  width: 500px;
+  border-radius: 50px;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0px 0px 30px -5px #888888;
+}
+
+.img-div {
+  width: max-content;
+  margin: 50px auto 0 auto;
+}
+
+.profile-card img {
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+  border: 1px solid #000;
+}
+
+.profile-card h3 {
+  margin: 50px;
+  text-align: center;
+}
+
+.profile-form {
+  margin: 300px auto;
+  padding: 50px 100px;
+  width: 70%;
+  border-top: 1px dashed #000;
+}
+
+.password-fields {
+  padding: 40px 50px 30px 50px;
+  border: 1px dashed #000;
+  border-radius: 20px;
+  margin: 20px auto;
+}
+
+.input-file {
+  padding: 14px 20px !important;
+  height: unset !important;
+  width: unset !important;
+  background-color: transparent !important;
+  display: block;
+}
+
+.chat {
+  background-color: #f0f2f5;
+}
+
+.chat-list {
+  width: 550px;
+  border-right: 1px solid #d1cec7;
+  background-color: white;
+}
+
+.chat-list .header {
+  background-color: #f0f2f5;
+  padding: 8px 25px;
+}
+
+.chat-list .header img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.chat-list .header i {
+  font-size: 25px;
+}
+
+.chat-individual {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 0 20px;
+  /* border-top: 1px solid #d1cec7;
+  border-bottom: 1px solid #d1cec7; */
+}
+
+.chat-individual img {
+  height: 60px;
+  width: 75px;
+  border-radius: 50%;
+}
+
+.chat-individual .image {
+}
+
+.chat-individual .content {
+  padding: 20px 0;
+  border-bottom: 1px solid #d1d7db;
+  width: 100%;
+  margin-left: 20px;
+  text-align: center;
+}
+
+.list .chat-individual:nth-child(2) .content {
+  border-top: 1px solid #d1d7db !important;
+}
+
+.chat-individual:hover {
+  background-color: #d1d7db;
+}
+
+.chat-individual .content span {
+  font-size: 18px;
+  text-align: center;
+}
+
+.chat-window .header {
+  background-color: #f0f2f5;
+  padding: 8px 25px;
+}
+
+.chat-window .header img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.chat-window .content span {
+  font-size: 18px;
+  text-align: center;
+}
+
+.chat-window .content {
+  margin-left: 20px;
+}
+
+.chat-detail {
+  width: 100%;
+}
+
+.chat-window {
+  background-image: url("./assets/images/chat-bg.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.message-input {
+  font-size: 30px;
+  background-color: #f0f2f5;
+  position: absolute;
+  top: 88%;
+  width: 100%;
+}
