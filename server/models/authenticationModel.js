@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const aggrigatePaginate = require("mongoose-aggregate-paginate-v2");
 
 const authenticationSchema = new mongoose.Schema({
   email: {
@@ -38,6 +39,8 @@ const authenticationSchema = new mongoose.Schema({
     required: false,
   },
 });
+
+authenticationSchema.plugin(aggrigatePaginate);
 
 const Authentication = mongoose.model("Authentication", authenticationSchema);
 

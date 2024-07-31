@@ -1,9 +1,7 @@
 const jwt = require("jsonwebtoken");
-const Authentication = require("../models/authenticationModel");
 require("dotenv").config();
 
 const authenticateUser = async (req, res, next) => {
-  console.log("token", req.headers.authorization);
   try {
     jwt.verify(
       req.headers.authorization.replace("Bearer ", ""),

@@ -46,15 +46,24 @@ function ResetPassword() {
           } else {
             setRenderPage(false);
             errorToast(res.error);
+            setTimeout(() => {
+              navigate("/login");
+            }, 3000);
           }
         })
         .catch((err) => {
           setRenderPage(false);
           errorToast(err);
+          setTimeout(() => {
+            navigate("/login");
+          }, 3000);
         });
     } else {
       setRenderPage(false);
       errorToast("Invalid URL Parameters");
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
     }
   }, []);
 

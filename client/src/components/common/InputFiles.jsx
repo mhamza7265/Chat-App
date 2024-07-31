@@ -15,6 +15,7 @@ function InputFiles({
         {...register(name, required && { required: "This field is required!" })}
         name={name}
         type="file"
+        accept="image/*"
         placeholder={placeholder}
         defaultValue={defaultValue}
         readOnly={readOnly}

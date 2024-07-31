@@ -45,6 +45,9 @@ function Login() {
             "currentUser",
             JSON.stringify({ token: res.token })
           );
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
         } else {
           warningToast(res.error);
           dispatch(addEmail(data.email));

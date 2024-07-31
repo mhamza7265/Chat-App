@@ -17,6 +17,8 @@ const {
   resetPassword,
   getProfile,
   updateProfile,
+  getUserAccounts,
+  getSearchedUser,
 } = require("../controllers/authenticationController");
 
 router.post(
@@ -32,8 +34,10 @@ router.put("/updatePw", updatePassword);
 router.post("/resetPwVerify", resetPasswordEmail);
 router.post("/verifyReset", verifyResetEmail);
 router.put("/resetPw", resetPassword);
-router.use(upload.any(), authMiddleware); //auth middleware
-router.get("/profile", getProfile);
-router.put("/profile", upload.any(), updateProfile);
+// router.use(upload.any(), authMiddleware); //auth middleware
+router.get("/profile", authMiddleware, getProfile);
+router.put("/profile", upload.any(), authMiddleware, updateProfile);
+router.get("/users/:page", authMiddleware, getUserAccounts);
+router.get("/user/:email", authMiddleware, getSearchedUser);
 
 module.exports = router;

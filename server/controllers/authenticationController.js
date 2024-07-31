@@ -1,4 +1,5 @@
 const Authentication = require("../models/authenticationModel");
+const Chat = require("../models/chatModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sendEmail = require("../config/sendEmail");
@@ -23,9 +24,24 @@ const registerUser = async (req, res) => {
         verified: false,
       });
 
-      return res
-        .status(200)
-        .json({ status: true, user, message: "Successfully registered!" });
+      const randomNum = Math.floor(100000 + Math.random() * 900000);
+      await sendEmail(req.body.email, randomNum, "verifyUser", user.firstName)
+        .then((res) => {
+          console.log("email", res);
+        })
+        .catch((err) => {
+          console.log("email", err);
+        });
+
+      await Authentication.updateOne(
+        { email: req.body.email },
+        { verification: randomNum }
+      );
+      return res.status(200).json({
+        status: true,
+        message:
+          "Successfully registered, please verify your account with OTP sent to your email!",
+      });
     } else {
       return res
         .status(340)
@@ -41,14 +57,12 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const user = await Authentication.findOne({ email: req.body.email });
-    console.log("user", user);
     if (user) {
       if (await bcrypt.compare(req.body.password, user.password)) {
         if (user.verified) {
-          console.log("verified");
-          console.log("secret", process.env.JWT_SECRET);
           const token = jwt.sign(
             {
+              id: user._id,
               email: user.email,
               firstName: user.firstName,
               lastName: user.lastName,
@@ -106,7 +120,6 @@ const loginUser = async (req, res) => {
 const verifyUser = async (req, res) => {
   try {
     const user = await Authentication.findOne({ email: req.body.email });
-    console.log("user", user);
     if (user.verification === req.body.code) {
       const updated = await Authentication.updateOne(
         { email: req.body.email },
@@ -201,7 +214,6 @@ const verifyResetEmail = async (req, res) => {
         }
       } else {
         const user = await Authentication.findOne({ email: decoded.email });
-        console.log("user", user);
         if (user.link === req.body.token) {
           return res
             .status(200)
@@ -254,7 +266,6 @@ const updateProfile = async (req, res) => {
       : undefined;
   try {
     const user = await Authentication.findOne({ email: req.body.email });
-    console.log("user", user);
     let obj = {};
     if (req.body.firstName) {
       obj["firstName"] = req.body.firstName;
@@ -290,8 +301,6 @@ const updateProfile = async (req, res) => {
         .json({ status: false, error: "Enter current password" });
     }
 
-    console.log("obj", obj);
-
     const updated = await Authentication.updateOne(
       { email: req.body.email },
       obj
@@ -299,6 +308,12 @@ const updateProfile = async (req, res) => {
 
     if (updated.acknowledged) {
       if (req.files && req.files.length > 0) {
+        var updateQuery = {};
+        updateQuery["image." + req.body.email.replaceAll(".", "")] = image;
+        const chats = await Chat.updateMany(
+          { users: { $in: req.body.email } },
+          { $set: updateQuery }
+        );
         fs.unlink("files/" + user.image, (err) => {
           if (err) {
             console.log("Delete Error", err);
@@ -317,6 +332,45 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const getUserAccounts = async (socket, data) => {
+  const currentPage = data.page;
+  let page = 1;
+  const limit = 5;
+  if (currentPage) page = currentPage;
+  try {
+    const user = Authentication.aggregate([
+      { $match: { email: { $not: { $eq: socket.headers.email } } } },
+      {
+        $project: {
+          password: 0,
+          verified: 0,
+        },
+      },
+    ]);
+
+    const usersList = await Authentication.aggregatePaginate(user, {
+      page,
+      limit,
+    });
+    return { status: true, users: usersList };
+  } catch (err) {
+    return { status: false, error: "Internal server error" };
+  }
+};
+
+const getSearchedUser = async (socket, data) => {
+  const email = data.email.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  try {
+    const user = await Authentication.aggregate([
+      { $match: { email: { $not: { $eq: socket.headers.email } } } },
+      { $match: { email: { $regex: email, $options: "i" } } },
+    ]);
+    return { status: true, user };
+  } catch (err) {
+    return { status: false, error: "Internal server error" };
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -327,4 +381,6 @@ module.exports = {
   resetPassword,
   getProfile,
   updateProfile,
+  getUserAccounts,
+  getSearchedUser,
 };

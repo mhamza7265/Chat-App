@@ -1,30 +1,37 @@
-function Input({
+function InputMessages({
   register,
   name,
   placeholder,
-  required,
   error,
   label,
   defaultValue,
   readOnly,
-  style,
+  setBtnIsDisabled,
 }) {
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    if (value) {
+      setBtnIsDisabled(false);
+    } else {
+      setBtnIsDisabled(true);
+    }
+  };
+
   return (
     <div className="form-grp">
       {label && <label>{label}</label>}
       <input
-        {...register(name, required && { required: "This field is required!" })}
+        {...register(name, { onChange: handleInputChange })}
         name={name}
         type="text"
         placeholder={placeholder}
         defaultValue={defaultValue}
         readOnly={readOnly}
         autoComplete="password"
-        style={{ width: style?.width ?? "100%" }}
       />
       {error && <p className="text-danger">{error[name]?.message}</p>}
     </div>
   );
 }
 
-export default Input;
+export default InputMessages;

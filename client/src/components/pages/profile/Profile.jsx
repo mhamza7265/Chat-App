@@ -9,6 +9,7 @@ import sendRequest from "../../../utility/apiManager";
 import { BASE_URL } from "../../../utility/config";
 import { errorToast, successToast } from "../../../utility/toast";
 import { BarLoader } from "react-spinners";
+import arrowDownGif from "../../../assets/images/arrow-down.gif";
 
 function Profile() {
   const [profile, setProfile] = useState(null);
@@ -73,6 +74,10 @@ function Profile() {
       });
   };
 
+  const handleScrollDownClick = () => {
+    window.scrollTo(0, 680);
+  };
+
   return (
     <div className="container-fluid p-0 container-bg">
       <div className="proflie">
@@ -89,6 +94,37 @@ function Profile() {
               />
             </div>
             <h3>{profile?.firstName + " " + profile?.lastName}</h3>
+            <span>{profile?.email}</span>
+          </div>
+          <div
+            className="w-max-content cursor-pointer"
+            style={{
+              position: "absolute",
+              top: "482px",
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+            onClick={handleScrollDownClick}
+          >
+            <span
+              style={{
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              Edit Profile
+            </span>
+            <div className="w-max-content m-auto">
+              {/* <i
+                className="fa fa-angle-double-down"
+                style={{ fontWeight: "bold", fontSize: "22px" }}
+              ></i> */}
+              <img
+                src={arrowDownGif}
+                alt="arrow-down"
+                style={{ width: "30px", height: "30px" }}
+              />
+            </div>
           </div>
         </div>
         <div className="profile-form form position-relative">

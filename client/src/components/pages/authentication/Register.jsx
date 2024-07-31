@@ -7,9 +7,15 @@ import { BarLoader } from "react-spinners";
 import { useState } from "react";
 import InputConfirmPassword from "../../common/InputConfirmPassword";
 import InputFiles from "../../common/InputFiles";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { addEmail } from "../../../redux/reducers/loggingEmailReducer";
 
 function Register() {
   const [spinnerStatus, setSpinnerStatus] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -44,6 +50,10 @@ function Register() {
         setSpinnerStatus(false);
         if (res.status) {
           successToast(res.message);
+          dispatch(addEmail(data.email));
+          setTimeout(() => {
+            navigate("/verify");
+          }, 3000);
         }
       })
       .catch((err) => {
@@ -74,20 +84,23 @@ function Register() {
               required={true}
               error={errors}
             />
-            <Input
-              register={register}
-              name="firstName"
-              placeholder="First Name"
-              required={true}
-              error={errors}
-            />
-            <Input
-              register={register}
-              name="lastName"
-              placeholder="Last Name"
-              required={true}
-              error={errors}
-            />
+            <div className="d-flex align-items-center justify-content-between">
+              <Input
+                register={register}
+                name="firstName"
+                placeholder="First Name"
+                required={true}
+                error={errors}
+                style={{ width: "95%" }}
+              />
+              <Input
+                register={register}
+                name="lastName"
+                placeholder="Last Name"
+                required={true}
+                error={errors}
+              />
+            </div>
             <InputFiles
               register={register}
               name="image"
@@ -119,7 +132,9 @@ function Register() {
           <div className="signup">
             <span className="signup">
               Already have an account?
-              <label htmlFor="check">Login</label>
+              <label htmlFor="check">
+                <Link to={"/login"}>Login</Link>
+              </label>
             </span>
           </div>
         </div>
